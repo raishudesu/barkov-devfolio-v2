@@ -14,15 +14,24 @@ const ProjectCard = ({
   description,
   content,
   techStack,
+  imageLink,
 }: {
   title: string;
   description: string;
   content: ReactNode;
   techStack: string[];
+  imageLink?: string | null;
 }) => {
   return (
     <Card className="w-full h-full">
       <CardHeader>
+        <div className="h-8 w-8">
+          <img
+            src={imageLink}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+        </div>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>

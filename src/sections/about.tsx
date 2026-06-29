@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <section className="px-4 py-6 border border-gray-100 rounded-lg">
+    <section className="w-full px-4 py-6 border border-gray-100 dark:border-gray-800 rounded-lg">
       <div className="flex flex-col items-start justify-start gap-2">
         <h2 className="text-2xl font-bold">About</h2>
         <p className="text-sm text-gray-500">
@@ -11,7 +11,8 @@ const About = () => {
           <br />
           <br />I leverage AI tools to help me build projects faster and
           efficiently. I share my knowledge through content creation, and learn
-          from others.
+          from others. I accept small projects as a freelancer, feel free to
+          contact me.
         </p>
       </div>
     </section>

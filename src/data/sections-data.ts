@@ -1,4 +1,8 @@
 import { GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
+import PopChainLogo from "../assets/projects/popchain_logo.png";
+import RentaLogo from "../assets/projects/renta-logo.svg";
+import FundrLogo from "../assets/projects/fundr-logo.svg";
+import ParkSULogo from "../assets/projects/parksu.svg";
 
 export const sectionsData = {
   frontend: [
@@ -12,7 +16,7 @@ export const sectionsData = {
   backend: [
     "Node.js",
     "Laravel",
-    ".NET",
+    "ASP.NET Core",
     "Express.js",
     "PostgreSQL",
     "MySQL",
@@ -39,6 +43,7 @@ export const sectionsData = {
         "PopChain lets you prove you were there. Scan, mint, collect. Your attendance, secured forever on the blockchain",
       link: "https://popchain.vercel.app/",
       techStack: ["NextJS", "Sui Blockchain", "Tusky", "Supabase"],
+      imageLink: PopChainLogo,
     },
     {
       title: "Renta",
@@ -46,6 +51,7 @@ export const sectionsData = {
         "The simplest way to rent vehicles. Owners list their cars, renters book instantly, and QR codes make pickup seamless. No paperwork, no hassle.",
       link: "https://renta-prod.vercel.app/",
       techStack: ["NextJS", "ASP.NET Core", "AWS"],
+      imageLink: RentaLogo,
     },
     {
       title: "Fundr Business Support Services",
@@ -53,6 +59,7 @@ export const sectionsData = {
         "A Platform to provide financial information and transparency to Fundr Clients.",
       link: "https://fundrph.org/",
       techStack: ["NextJS", "Supabase"],
+      imageLink: FundrLogo,
     },
     {
       title: "ParkSU",
@@ -60,6 +67,7 @@ export const sectionsData = {
         "A Realtime Parking Monitoring System with Data Analytics and Visualization for Palawan State University campus.",
       link: "https://parksu.vercel.app/",
       techStack: ["NextJS", "Supabase"],
+      imageLink: ParkSULogo,
     },
   ],
   experience: [

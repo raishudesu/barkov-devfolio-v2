@@ -1,17 +1,18 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  DownloadIcon,
   Envelope,
   MapPin,
   UserIcon,
+  BookOpenIcon,
 } from "@phosphor-icons/react";
 
 const Header = () => {
   return (
-    <section>
-      <div className="flex items-center justify-start gap-6">
-        <Avatar className="size-40">
+    <section className="flex items-start justify-between w-full">
+      <div className="flex items-center justify-start gap-6 flex-wrap">
+        <Avatar className="size-30 lg:size-40">
           <AvatarImage src="/images/header-img.png" />
           <AvatarFallback>
             <UserIcon />
@@ -28,8 +29,8 @@ const Header = () => {
           </p>
           <div className="pt-4 flex items-center justify-start gap-2">
             <Button>
-              <DownloadIcon />
-              Download Developer Resume
+              <BookOpenIcon />
+              Blog (Coming Soon)
             </Button>
             <Button variant="outline" asChild>
               <a
@@ -44,6 +45,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <ModeToggle />
     </section>
   );
 };

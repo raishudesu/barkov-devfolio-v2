@@ -3,7 +3,7 @@ import ExperienceCard from "./components/experience-card";
 
 const Experience = () => {
   return (
-    <section className="w-full max-w-sm px-4 py-6 border border-gray-100 rounded-lg">
+    <section className="w-full px-4 py-6 border border-gray-100 dark:border-gray-800 rounded-lg">
       <div className="flex flex-col items-start justify-start gap-2">
         <h3 className="text-lg font-bold">Experience</h3>
       </div>

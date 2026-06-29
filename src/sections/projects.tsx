@@ -5,7 +5,7 @@ import { LinkIcon } from "@phosphor-icons/react";
 
 const Projects = () => {
   return (
-    <section className="w-full px-4 py-6 border border-gray-100 rounded-lg">
+    <section className="w-full px-4 py-6 border border-gray-100 dark:border-gray-800 rounded-lg">
       <div className="flex flex-col items-start justify-start gap-2">
         <h2 className="text-2xl font-bold">Projects</h2>
       </div>
