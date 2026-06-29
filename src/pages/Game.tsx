@@ -68,10 +68,11 @@ export default function Game() {
   const [time, setTime] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [flipped, setFlipped] = useState<number[]>([]);
-  const [busy, setBusy] = useState(false);
   const won = matches === PAIR_COUNT;
+  const busy = flipped.length === 2;
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flippingRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
     if (playing && !won) {
@@ -82,41 +83,55 @@ export default function Game() {
     };
   }, [playing, won]);
 
+  useEffect(() => {
+    if (flipped.length !== 2) return;
+
+    const [idA, idB] = flipped;
+    const cardA = cards.find((c) => c.id === idA);
+    const cardB = cards.find((c) => c.id === idB);
+    if (!cardA || !cardB) return;
+
+    const isMatch = cardA.pairIndex === cardB.pairIndex;
+    const delay = isMatch ? 400 : 900;
+    timeoutRef.current = setTimeout(() => {
+      setCards((prev) =>
+        prev.map((c) =>
+          c.id === idA || c.id === idB
+            ? { ...c, ...(isMatch ? { matched: true } : { flipped: false }) }
+            : c
+        )
+      );
+      if (isMatch) setMatches((m) => m + 1);
+      flippingRef.current.clear();
+      setFlipped([]);
+      timeoutRef.current = null;
+    }, delay);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [flipped, cards]);
+
   function handleClick(id: number) {
     if (busy || won) return;
+    if (flippingRef.current.size >= 2) return;
     const card = cards.find((c) => c.id === id);
     if (!card || card.flipped || card.matched) return;
+    if (flippingRef.current.has(id)) return;
+
+    flippingRef.current.add(id);
+
+    if (flippingRef.current.size === 2) setMoves((m) => m + 1);
 
     if (!playing) setPlaying(true);
 
     setCards((prev) =>
       prev.map((c) => (c.id === id ? { ...c, flipped: true } : c))
     );
-    const next = [...flipped, id];
-    setFlipped(next);
-
-    if (next.length === 2) {
-      setMoves((m) => m + 1);
-      setBusy(true);
-
-      const a = cards.find((c) => c.id === next[0]);
-      const b = cards.find((c) => c.id === next[1]);
-      if (!a || !b) return;
-
-      const delay = a.pairIndex === b.pairIndex ? 400 : 900;
-      timeoutRef.current = setTimeout(() => {
-        setCards((prev) =>
-          prev.map((c) =>
-            c.id === a.id || c.id === b.id
-              ? { ...c, ...(a.pairIndex === b.pairIndex ? { matched: true } : { flipped: false }) }
-              : c
-          )
-        );
-        if (a.pairIndex === b.pairIndex) setMatches((m) => m + 1);
-        setFlipped([]);
-        setBusy(false);
-      }, delay);
-    }
+    setFlipped((prev) => [...prev, id]);
   }
 
   const restart = () => {
@@ -127,8 +142,8 @@ export default function Game() {
     setMatches(0);
     setTime(0);
     setPlaying(false);
+    flippingRef.current.clear();
     setFlipped([]);
-    setBusy(false);
   };
 
   return (

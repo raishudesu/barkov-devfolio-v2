@@ -58,10 +58,10 @@ const ExperienceCard = ({
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{company}</CardDescription>
-          <CardContent>
-            {dateStart} - {dateEnd}
-          </CardContent>
         </CardHeader>
+        <CardContent>
+          {dateStart} - {dateEnd}
+        </CardContent>
       </Card>
     </div>
   );
