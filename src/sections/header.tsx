@@ -7,13 +7,17 @@ import {
   MapPin,
   UserIcon,
   BookOpenIcon,
+  GameController,
 } from "@phosphor-icons/react";
 
 const Header = () => {
   return (
     <section className="flex items-start justify-between w-full">
       <div className="flex items-center justify-start gap-6 flex-wrap">
-        <Link to="/" className="flex items-center justify-start gap-6 flex-wrap">
+        <Link
+          to="/"
+          className="flex items-center justify-start gap-6 flex-wrap"
+        >
           <Avatar className="size-30 lg:size-40">
             <AvatarImage src="/images/header-img.png" />
             <AvatarFallback>
@@ -38,6 +42,7 @@ const Header = () => {
               Blog
             </Link>
           </Button>
+
           <Button variant="outline" asChild>
             <a
               href="mailto:bacaltosbaryshnikov@gmail.com"
@@ -47,6 +52,12 @@ const Header = () => {
               <Envelope />
               Send Email
             </a>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/game">
+              <GameController />
+              Game
+            </Link>
           </Button>
         </div>
       </div>

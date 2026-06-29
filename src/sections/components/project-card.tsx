@@ -20,7 +20,7 @@ const ProjectCard = ({
   description: string;
   content: ReactNode;
   techStack: string[];
-  imageLink?: string | null;
+  imageLink?: string;
 }) => {
   return (
     <Card className="w-full h-full">

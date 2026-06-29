@@ -3,6 +3,7 @@ import Header from "./sections/header";
 import Footer from "./sections/footer";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
+import Game from "./pages/Game";
 import "./App.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/game" element={<Game />} />
           </Routes>
         </div>
         <div className="w-full self-center">
