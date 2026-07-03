@@ -2,7 +2,7 @@ import { GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
 import PopChainLogo from "../assets/projects/popchain_logo.png";
 import RentaLogo from "../assets/projects/renta-logo.svg";
 import FundrLogo from "../assets/projects/fundr-logo.svg";
-import ParkSULogo from "../assets/projects/parkSU.svg";
+import ParkSULogo from "../assets/projects/parksu.svg";
 
 export const sectionsData = {
   frontend: [
