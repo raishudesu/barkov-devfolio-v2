@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { supabase } from "@/lib/supabase";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,10 +14,13 @@ import {
   Envelope,
   GameController,
 } from "@phosphor-icons/react";
+import { useAuth } from "@/contexts/auth-context";
+import type { Profile } from "../data/sections-data";
 
 const NAV_ITEMS = [
   { to: "/", label: "home" },
   { to: "/blog", label: "blog" },
+  { to: "/gallery", label: "gallery" },
   { to: "/game", label: "game" },
 ];
 
@@ -39,13 +44,28 @@ function NavLink({ to, label }: { to: string; label: string }) {
 
 const Header = () => {
   const { pathname } = useLocation();
+  const { user } = useAuth();
+  const [name, setName] = useState("Barysh Bacaltos");
+  const [email, setEmail] = useState("bacaltosbaryshnikov@gmail.com");
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    supabase.from("profile").select("name, email").eq("id", 1).single().then(({ data }) => {
+      if (data) {
+        const p = data as Profile;
+        setName(p.name);
+        setEmail(p.email);
+      }
+      setLoaded(true);
+    });
+  }, []);
 
   return (
     <>
       {/* Mobile top bar */}
       <div className="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-background/90 backdrop-blur-sm border-b border-gray-200 lg:hidden">
         <Link to="/" className="text-sm font-bold">
-          Barysh Bacaltos
+          {loaded ? name : "Barysh Bacaltos"}
         </Link>
         <div className="flex items-center gap-3">
           <ModeToggle />
@@ -59,7 +79,7 @@ const Header = () => {
               <div className="flex flex-col gap-6 h-full py-6 px-5">
                 <SheetClose asChild>
                   <Link to="/" className="text-sm font-bold">
-                    Barysh Bacaltos
+                    {loaded ? name : "Barysh Bacaltos"}
                   </Link>
                 </SheetClose>
 
@@ -82,18 +102,31 @@ const Header = () => {
                       </SheetClose>
                     );
                   })}
+                  {user && (
+                    <SheetClose asChild>
+                      <Link
+                        to="/dashboard"
+                        className={`flex items-center gap-2 py-1.5 text-sm transition-colors ${
+                          pathname.startsWith("/dashboard") ? "text-foreground" : "text-gray-400 hover:text-foreground"
+                        }`}
+                      >
+                        <span className="text-[11px]">{pathname.startsWith("/dashboard") ? "→" : "\u00A0\u00A0"}</span>
+                        <span className="text-[11px] uppercase tracking-[0.08em]">dashboard</span>
+                      </Link>
+                    </SheetClose>
+                  )}
                 </nav>
 
                 <div className="h-px bg-gray-200" />
 
                 <div className="flex flex-col gap-3 mt-auto">
                   <a
-                    href="mailto:bacaltosbaryshnikov@gmail.com"
+                    href={`mailto:${email}`}
                     className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors overflow-hidden"
-                    title="bacaltosbaryshnikov@gmail.com"
+                    title={email}
                   >
                     <Envelope size={12} className="shrink-0" />
-                    <span className="truncate">bacaltosbaryshnikov@gmail.com</span>
+                    <span className="truncate">{email}</span>
                   </a>
                   <div className="flex items-center justify-between">
                     <Link
@@ -116,7 +149,7 @@ const Header = () => {
       <aside className="hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0 lg:w-56 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-background lg:py-8 lg:px-6">
         <div className="flex flex-col gap-6 h-full py-6 px-5">
           <Link to="/" className="text-sm font-bold">
-            Barysh Bacaltos
+            {loaded ? name : "Barysh Bacaltos"}
           </Link>
 
           <div className="h-px bg-gray-200" />
@@ -125,18 +158,21 @@ const Header = () => {
             {NAV_ITEMS.map(({ to, label }) => (
               <NavLink key={to} to={to} label={label} />
             ))}
+            {user && (
+              <NavLink to="/dashboard" label="dashboard" />
+            )}
           </nav>
 
           <div className="h-px bg-gray-200" />
 
           <div className="flex flex-col gap-3 mt-auto">
             <a
-              href="mailto:bacaltosbaryshnikov@gmail.com"
+              href={`mailto:${email}`}
               className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors overflow-hidden"
-              title="bacaltosbaryshnikov@gmail.com"
+              title={email}
             >
               <Envelope size={12} className="shrink-0" />
-              <span className="truncate">bacaltosbaryshnikov@gmail.com</span>
+              <span className="truncate">{email}</span>
             </a>
             <div className="flex items-center justify-between">
               <Link
