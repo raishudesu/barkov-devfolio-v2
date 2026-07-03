@@ -1,68 +1,173 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
-  Envelope,
-  MapPin,
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import {
   UserIcon,
-  BookOpenIcon,
+  List,
+  Envelope,
   GameController,
 } from "@phosphor-icons/react";
 
-const Header = () => {
-  return (
-    <section className="flex items-start justify-between w-full">
-      <div className="flex items-center justify-start gap-6 flex-wrap">
-        <Link
-          to="/"
-          className="flex items-center justify-start gap-6 flex-wrap"
-        >
-          <Avatar className="size-30 lg:size-40">
-            <AvatarImage src="/images/header-img.png" />
-            <AvatarFallback>
-              <UserIcon />
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col items-start justify-center">
-            <h1 className="text-2xl font-bold">Barysh Bacaltos</h1>
-            <div className="flex items-center justify-start gap-2">
-              <MapPin />
-              <span>Philippines</span>
-            </div>
-            <p className="pt-2 text-sm text-gray-500">
-              Full Stack Developer \ Aspiring Content Creator
-            </p>
-          </div>
-        </Link>
-        <div className="pt-4 flex items-center justify-start gap-2">
-          <Button asChild>
-            <Link to="/blog">
-              <BookOpenIcon />
-              Blog
-            </Link>
-          </Button>
+const NAV_ITEMS = [
+  { to: "/", label: "home" },
+  { to: "/blog", label: "blog" },
+  { to: "/game", label: "game" },
+];
 
-          <Button variant="outline" asChild>
-            <a
-              href="mailto:bacaltosbaryshnikov@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Envelope />
-              Send Email
-            </a>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/game">
-              <GameController />
-              Game
-            </Link>
-          </Button>
+function NavLink({ to, label }: { to: string; label: string }) {
+  const { pathname } = useLocation();
+  const isActive = pathname === to;
+
+  return (
+    <Link
+      to={to}
+      className={`flex items-center gap-2 py-1.5 text-sm transition-colors ${
+        isActive ? "text-foreground" : "text-gray-400 hover:text-foreground"
+      }`}
+    >
+      {isActive && <span className="text-[11px]">→</span>}
+      {!isActive && <span className="text-[11px] invisible">→</span>}
+      <span className="text-[11px] uppercase tracking-[0.08em]">{label}</span>
+    </Link>
+  );
+}
+
+const Header = () => {
+  const { pathname } = useLocation();
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      <div className="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-background/90 backdrop-blur-sm border-b border-gray-200 lg:hidden">
+        <Link to="/" className="text-sm font-bold">
+          barysh bacaltos
+        </Link>
+        <div className="flex items-center gap-3">
+          <ModeToggle />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon-sm" aria-label="Open menu">
+                <List size={18} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" showCloseButton={false} className="w-64 p-0">
+              <div className="flex flex-col gap-6 h-full py-6 px-5">
+                <SheetClose asChild>
+                  <Link to="/" className="flex items-center gap-3">
+                    <Avatar className="size-10 shrink-0">
+                      <AvatarImage src="/images/header-img.png" />
+                      <AvatarFallback><UserIcon /></AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="text-sm font-bold leading-tight">Barysh Bacaltos</p>
+                      <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 leading-tight">full stack dev</p>
+                    </div>
+                  </Link>
+                </SheetClose>
+
+                <div className="h-px bg-gray-200" />
+
+                <nav className="flex flex-col gap-1">
+                  {NAV_ITEMS.map(({ to, label }) => {
+                    const isActive = pathname === to;
+                    return (
+                      <SheetClose key={to} asChild>
+                        <Link
+                          to={to}
+                          className={`flex items-center gap-2 py-1.5 text-sm transition-colors ${
+                            isActive ? "text-foreground" : "text-gray-400 hover:text-foreground"
+                          }`}
+                        >
+                          <span className="text-[11px]">{isActive ? "→" : "\u00A0\u00A0"}</span>
+                          <span className="text-[11px] uppercase tracking-[0.08em]">{label}</span>
+                        </Link>
+                      </SheetClose>
+                    );
+                  })}
+                </nav>
+
+                <div className="h-px bg-gray-200" />
+
+                <div className="flex flex-col gap-3 mt-auto">
+                  <a
+                    href="mailto:bacaltosbaryshnikov@gmail.com"
+                    className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors overflow-hidden"
+                    title="bacaltosbaryshnikov@gmail.com"
+                  >
+                    <Envelope size={12} className="shrink-0" />
+                    <span className="truncate">bacaltosbaryshnikov@gmail.com</span>
+                  </a>
+                  <div className="flex items-center justify-between">
+                    <Link
+                      to="/game"
+                      className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors"
+                    >
+                      <GameController size={12} />
+                      game
+                    </Link>
+                    <ModeToggle />
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
-      <ModeToggle />
-    </section>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0 lg:w-56 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-background lg:py-8 lg:px-6">
+        <div className="flex flex-col gap-6 h-full py-6 px-5">
+          <Link to="/" className="flex items-center gap-3">
+            <Avatar className="size-10 shrink-0">
+              <AvatarImage src="/images/header-img.png" />
+              <AvatarFallback><UserIcon /></AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-bold leading-tight">Barysh Bacaltos</p>
+              <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 leading-tight">full stack dev</p>
+            </div>
+          </Link>
+
+          <div className="h-px bg-gray-200" />
+
+          <nav className="flex flex-col gap-1">
+            {NAV_ITEMS.map(({ to, label }) => (
+              <NavLink key={to} to={to} label={label} />
+            ))}
+          </nav>
+
+          <div className="h-px bg-gray-200" />
+
+          <div className="flex flex-col gap-3 mt-auto">
+            <a
+              href="mailto:bacaltosbaryshnikov@gmail.com"
+              className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors overflow-hidden"
+              title="bacaltosbaryshnikov@gmail.com"
+            >
+              <Envelope size={12} className="shrink-0" />
+              <span className="truncate">bacaltosbaryshnikov@gmail.com</span>
+            </a>
+            <div className="flex items-center justify-between">
+              <Link
+                to="/game"
+                className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors"
+              >
+                <GameController size={12} />
+                game
+              </Link>
+              <ModeToggle />
+            </div>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 };
 

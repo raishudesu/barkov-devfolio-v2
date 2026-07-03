@@ -10,19 +10,19 @@ import { ThemeProvider } from "@/components/theme-provider";
 function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <main className="justify-center items-start max-w-5xl mx-auto py-6 px-4 lg:px-2 flex flex-col gap-6 min-h-screen">
+      <div className="flex flex-col lg:flex  min-h-screen">
         <Header />
-        <div className="w-full flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/game" element={<Game />} />
-          </Routes>
-        </div>
-        <div className="w-full self-center">
-          <Footer />
-        </div>
-      </main>
+        <main className="flex-1 min-w-0 px-4 pt-6 pb-16 lg:ml-56 lg:pt-12 lg:px-8">
+          <div className="mx-auto max-w-[42rem]">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/game" element={<Game />} />
+            </Routes>
+            <Footer />
+          </div>
+        </main>
+      </div>
     </ThemeProvider>
   );
 }

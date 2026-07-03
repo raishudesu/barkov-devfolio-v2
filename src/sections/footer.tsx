@@ -1,10 +1,10 @@
 const Footer = () => {
   return (
-    <section className="w-full px-4 py-6 border-t border-gray-100 dark:border-gray-800">
-      <div className="flex items-center justify-center gap-2">
-        <p>© 2026 Barysh Bacaltos. All rights reserved.</p>
-      </div>
-    </section>
+    <footer className="mt-16 pt-6 border-t border-gray-200">
+      <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 text-center">
+        &copy; 2026 barysh bacaltos
+      </p>
+    </footer>
   );
 };
 

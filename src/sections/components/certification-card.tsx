@@ -1,12 +1,3 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 const CertificationCard = ({
   title,
   description,
@@ -17,23 +8,19 @@ const CertificationCard = ({
   imageLink?: string | null;
 }) => {
   return (
-    <Card className="w-full h-full">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent className="pb-2">
-        {imageLink && (
-          <AspectRatio ratio={16 / 11}>
-            <img
-              src={imageLink}
-              alt={title}
-              className="w-full h-full object-cover"
-            />
-          </AspectRatio>
-        )}
-      </CardContent>
-    </Card>
+    <article className="border border-gray-200 rounded-xl p-5 bg-card shadow-[0_2px_8px_-4px_rgba(0,0,0,0.08)]">
+      {imageLink && (
+        <div className="mb-3 rounded-lg overflow-hidden border border-gray-200">
+          <img
+            src={imageLink}
+            alt={title}
+            className="w-full object-cover"
+          />
+        </div>
+      )}
+      <h3 className="text-sm font-bold">{title}</h3>
+      <p className="text-sm text-gray-500 mt-1">{description}</p>
+    </article>
   );
 };
 

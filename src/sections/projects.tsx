@@ -1,32 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { sectionsData } from "@/src/data/sections-data";
-import ProjectCard from "@/src/sections/components/project-card";
-import { LinkIcon } from "@phosphor-icons/react";
+import { sectionsData } from "../data/sections-data";
+import ProjectCard from "../sections/components/project-card";
 
 const Projects = () => {
   return (
-    <section className="w-full px-4 py-6 border border-gray-100 dark:border-gray-800 rounded-lg">
-      <div className="flex flex-col items-start justify-start gap-2">
-        <h2 className="text-2xl font-bold">Projects</h2>
-      </div>
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 items-start justify-start gap-2 w-full">
+    <section className="mb-14">
+      <p className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400 mb-4">
+        03 — projects
+      </p>
+      <div className="flex flex-col gap-3">
         {sectionsData.projects.map((project) => (
-          <ProjectCard
-            key={project.title}
-            {...project}
-            content={
-              <Button asChild>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <LinkIcon />
-                  {project.link.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-                </a>
-              </Button>
-            }
-          />
+          <ProjectCard key={project.title} {...project} />
         ))}
       </div>
     </section>

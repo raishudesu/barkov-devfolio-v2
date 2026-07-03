@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import {
   Code,
   Terminal,
@@ -35,6 +34,7 @@ interface CardData {
   pairIndex: number;
   flipped: boolean;
   matched: boolean;
+  wrong: boolean;
 }
 
 function shuffle<T>(array: T[]): T[] {
@@ -49,8 +49,8 @@ function shuffle<T>(array: T[]): T[] {
 function createCards(): CardData[] {
   const cards: CardData[] = [];
   for (let i = 0; i < PAIR_COUNT; i++) {
-    cards.push({ id: i * 2, pairIndex: i, flipped: false, matched: false });
-    cards.push({ id: i * 2 + 1, pairIndex: i, flipped: false, matched: false });
+    cards.push({ id: i * 2, pairIndex: i, flipped: false, matched: false, wrong: false });
+    cards.push({ id: i * 2 + 1, pairIndex: i, flipped: false, matched: false, wrong: false });
   }
   return shuffle(cards);
 }
@@ -92,28 +92,37 @@ export default function Game() {
     if (!cardA || !cardB) return;
 
     const isMatch = cardA.pairIndex === cardB.pairIndex;
+
+    if (!isMatch) {
+      setCards((prev) =>
+        prev.map((c) =>
+          c.id === idA || c.id === idB ? { ...c, wrong: true } : c
+        )
+      );
+    }
+
     const delay = isMatch ? 400 : 900;
-    timeoutRef.current = setTimeout(() => {
+    const timerId = setTimeout(() => {
       setCards((prev) =>
         prev.map((c) =>
           c.id === idA || c.id === idB
-            ? { ...c, ...(isMatch ? { matched: true } : { flipped: false }) }
+            ? { ...c, ...(isMatch ? { matched: true } : { wrong: false, flipped: false }) }
             : c
         )
       );
       if (isMatch) setMatches((m) => m + 1);
       flippingRef.current.clear();
       setFlipped([]);
-      timeoutRef.current = null;
     }, delay);
 
+    timeoutRef.current = timerId;
+
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
+      clearTimeout(timerId);
+      timeoutRef.current = null;
     };
-  }, [flipped, cards]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flipped]);
 
   function handleClick(id: number) {
     if (busy || won) return;
@@ -147,59 +156,60 @@ export default function Game() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-6 py-4">
       <div className="flex items-center justify-between w-full">
-        <Button variant="ghost" asChild>
-          <Link to="/">
-            <ArrowLeft />
-            Back
-          </Link>
-        </Button>
-        <h1 className="text-xl font-bold flex items-center gap-2">
-          <GameController />
-          Memory Match
+        <Link
+          to="/"
+          className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.08em] text-gray-400 hover:text-foreground transition-colors"
+        >
+          <ArrowLeft size={12} />
+          back
+        </Link>
+        <h1 className="text-sm font-bold flex items-center gap-2">
+          <GameController size={14} />
+          memory match
         </h1>
-        <div className="w-20" />
+        <div className="w-16" />
       </div>
 
-      <div className="flex items-center gap-6 text-sm text-muted-foreground">
+      <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.08em] text-gray-400">
         <span className="flex items-center gap-1">
-          <ClockCounterClockwise />
+          <ClockCounterClockwise size={12} />
           {fmt(time)}
         </span>
         <span className="flex items-center gap-1">
-          <Shuffle />
+          <Shuffle size={12} />
           {moves} moves
         </span>
       </div>
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-2">
         {cards.map((card) => {
           const Icon = PAIRS[card.pairIndex];
           return (
             <button
               key={card.id}
               onClick={() => handleClick(card.id)}
-              disabled={card.matched || card.flipped || busy}
+              disabled={card.matched || card.wrong || card.flipped || busy}
               aria-label={card.flipped || card.matched ? `Card ${card.id + 1}` : "Hidden card"}
               className={`
-                relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg border-2
+                relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl border
                 transition-all duration-300 flex items-center justify-center
                 ${
                   card.matched
-                    ? "border-green-500 bg-green-500/10 cursor-default"
+                    ? "border-green-600 bg-card cursor-default"
+                    : card.wrong
+                    ? "border-red-500 bg-card cursor-default"
                     : card.flipped
-                    ? "border-primary bg-primary/10 cursor-default"
-                    : "border-border bg-muted hover:bg-muted/80 cursor-pointer hover:border-primary/50 hover:scale-105 active:scale-95"
+                    ? "border-foreground bg-card cursor-default"
+                    : "border-gray-200 bg-card hover:border-foreground/50 cursor-pointer active:scale-95"
                 }
               `}
             >
               {card.flipped || card.matched ? (
-                <Icon className="text-2xl" />
+                <Icon className="text-xl" />
               ) : (
-                <span className="text-lg font-bold text-muted-foreground/40">
-                  ?
-                </span>
+                <span className="text-sm font-bold text-gray-300">?</span>
               )}
             </button>
           );
@@ -207,20 +217,28 @@ export default function Game() {
       </div>
 
       {won && (
-        <div className="flex flex-col items-center gap-3 p-6 border rounded-lg bg-card text-center">
-          <Trophy className="text-yellow-500 text-3xl" />
-          <h2 className="text-lg font-bold">You matched all pairs!</h2>
-          <p className="text-sm text-muted-foreground">
-            Completed in {moves} moves · {fmt(time)}
+        <div className="flex flex-col items-center gap-3 p-5 border border-gray-200 rounded-xl bg-card text-center max-w-xs">
+          <Trophy size={24} />
+          <h2 className="text-sm font-bold">you matched all pairs!</h2>
+          <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400">
+            {moves} moves · {fmt(time)}
           </p>
-          <Button onClick={restart}>Play Again</Button>
+          <button
+            onClick={restart}
+            className="px-4 py-1.5 text-[11px] uppercase tracking-[0.08em] bg-foreground text-background rounded-md hover:opacity-90 transition-opacity"
+          >
+            play again
+          </button>
         </div>
       )}
 
       {matches > 0 && !won && (
-        <Button variant="outline" onClick={restart}>
-          Restart
-        </Button>
+        <button
+          onClick={restart}
+          className="px-4 py-1.5 text-[11px] uppercase tracking-[0.08em] border border-gray-200 rounded-md text-gray-500 hover:text-foreground hover:border-foreground transition-colors"
+        >
+          restart
+        </button>
       )}
     </div>
   );

@@ -1,15 +1,15 @@
-import CertificationCard from "@/src/sections/components/certification-card";
-import { sectionsData } from "@/src/data/sections-data";
+import { sectionsData } from "../data/sections-data";
+import CertificationCard from "../sections/components/certification-card";
 
 const Certifications = () => {
   return (
-    <section className="w-full px-4 py-6 border border-gray-100 dark:border-gray-800 rounded-lg">
-      <div className="flex flex-col items-start justify-start gap-2">
-        <h3 className="text-lg font-bold">Activities/Certifications</h3>
-      </div>
-      <div className="mt-6 grid gap-2 w-full">
-        {sectionsData.certifications.map((certification) => (
-          <CertificationCard key={certification.title} {...certification} />
+    <section className="mb-14">
+      <p className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400 mb-4">
+        05 — certifications
+      </p>
+      <div className="flex flex-col gap-3">
+        {sectionsData.certifications.map((cert) => (
+          <CertificationCard key={cert.title} {...cert} />
         ))}
       </div>
     </section>

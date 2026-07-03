@@ -1,17 +1,7 @@
-import {
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-
 const ExperienceCard = ({
   title,
   company,
   isCurrent,
-  index,
   isLast,
   dateStart,
   dateEnd,
@@ -19,50 +9,27 @@ const ExperienceCard = ({
   title: string;
   company: string;
   isCurrent: boolean;
-  index: number;
   isLast: boolean;
   dateStart: string;
   dateEnd: string | null;
 }) => {
   return (
-    <div className="flex w-full gap-3">
-      <div className="relative flex w-2 shrink-0 flex-col items-center self-stretch overflow-visible">
-        {index > 0 && (
-          <div className="absolute left-1/2 top-0 h-6 w-px -translate-x-1/2 bg-gray-200" />
-        )}
-        <div className="relative z-10 mt-5 flex h-2 w-2 shrink-0 items-center justify-center">
+    <div className="flex gap-4">
+      <div className="flex flex-col items-center">
+        <div className={`size-2.5 rounded-full mt-1.5 ${isCurrent ? "bg-foreground" : "bg-gray-300"}`}>
           {isCurrent && (
-            <>
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inline-flex h-2 w-2 animate-timeline-pulse rounded-full border border-green-500"
-              />
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inline-flex h-2 w-2 animate-timeline-pulse rounded-full border border-green-500 [animation-delay:1s]"
-              />
-            </>
+            <span className="block size-2.5 rounded-full bg-foreground animate-pulse-dot" />
           )}
-          <span
-            className={cn(
-              "relative h-2 w-2 rounded-full",
-              isCurrent ? "bg-green-500" : "bg-gray-200",
-            )}
-          />
         </div>
-        {!isLast && (
-          <div className="absolute bottom-0 left-1/2 top-6 w-px -translate-x-1/2 bg-gray-200" />
-        )}
+        {!isLast && <div className="w-px flex-1 bg-gray-200 mt-1.5" />}
       </div>
-      <Card className="w-full flex-1">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{company}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {dateStart} - {dateEnd}
-        </CardContent>
-      </Card>
+      <div className="flex-1 pb-4">
+        <h3 className="text-sm font-bold">{title}</h3>
+        <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 mt-0.5">{company}</p>
+        <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 mt-1">
+          {dateStart} — {dateEnd}
+        </p>
+      </div>
     </div>
   );
 };

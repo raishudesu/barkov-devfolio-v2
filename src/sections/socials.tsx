@@ -1,33 +1,31 @@
-import { Button } from "@/components/ui/button";
-import { sectionsData } from "@/src/data/sections-data";
+import { sectionsData } from "../data/sections-data";
 
 const Socials = () => {
   return (
-    <section className="w-full px-4 py-6 border border-gray-100 dark:border-gray-800 rounded-lg">
-      <div className="flex flex-col items-start justify-start gap-2">
-        <h3 className="text-lg font-bold">Socials</h3>
-      </div>
-      <div className="mt-6 flex items-center justify-start gap-2">
+    <section className="mb-14">
+      <p className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400 mb-4">
+        06 — socials
+      </p>
+      <div className="flex flex-col gap-2">
         {sectionsData.socials.map((social) => (
-          <Button key={social.name} asChild>
-            <a href={social.url} target="_blank" rel="noopener noreferrer">
-              <social.icon />
-              {social.name}
-            </a>
-          </Button>
-        ))}
-      </div>
-      <div className="mt-6 flex items-center justify-start gap-2">
-        <span className="text-sm text-gray-500 font-bold">Email: </span>
-        <span className="text-sm text-gray-500 hover:underline">
           <a
-            href="mailto:bacaltosbaryshnikov@gmail.com"
+            key={social.name}
+            href={social.url}
             target="_blank"
             rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm text-gray-500 hover:text-foreground transition-colors underline underline-offset-[3px] decoration-[0.5px] decoration-gray-300 hover:decoration-foreground"
           >
-            bacaltosbaryshnikov@gmail.com
+            <social.icon size={14} />
+            {social.name} ↗
           </a>
-        </span>
+        ))}
+        <a
+          href="mailto:bacaltosbaryshnikov@gmail.com"
+          className="flex items-center gap-2 text-sm text-gray-500 hover:text-foreground transition-colors underline underline-offset-[3px] decoration-[0.5px] decoration-gray-300 hover:decoration-foreground mt-1"
+        >
+          <span className="text-[11px]">✉</span>
+          bacaltosbaryshnikov@gmail.com ↗
+        </a>
       </div>
     </section>
   );
