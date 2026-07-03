@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Profile } from "../data/sections-data";
+import type { Profile } from "@/lib/types";
 
 const About = () => {
   const [profile, setProfile] = useState<Profile | null>(null);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getIcon } from "@/lib/icons";
-import type { Social, Profile } from "../data/sections-data";
+import type { Social, Profile } from "@/lib/types";
 
 const Socials = () => {
   const [socials, setSocials] = useState<Social[]>([]);

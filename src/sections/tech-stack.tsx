@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { TechStackItem } from "../data/sections-data";
+import type { TechStackItem } from "@/lib/types";
 
 function Tag({ children }: { children: string }) {
   return (

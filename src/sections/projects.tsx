@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Project } from "../data/sections-data";
+import type { Project } from "@/lib/types";
 import ProjectCard from "../sections/components/project-card";
 
 function ProjectCardSkeleton() {

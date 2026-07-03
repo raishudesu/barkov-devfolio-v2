@@ -15,7 +15,7 @@ import {
   GameController,
 } from "@phosphor-icons/react";
 import { useAuth } from "@/contexts/auth-context";
-import type { Profile } from "../data/sections-data";
+import type { Profile } from "@/lib/types";
 
 const NAV_ITEMS = [
   { to: "/", label: "home" },

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Experience as ExperienceType } from "../data/sections-data";
+import type { Experience as ExperienceType } from "@/lib/types";
 import ExperienceCard from "./components/experience-card";
 
 function ExperienceSkeleton() {

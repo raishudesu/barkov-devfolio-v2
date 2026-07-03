@@ -11,7 +11,6 @@ export default function ProfileEditor() {
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
   const [aboutParagraphs, setAboutParagraphs] = useState("");
-  const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +20,6 @@ export default function ProfileEditor() {
         setName(data.name);
         setPosition(data.position);
         setAboutParagraphs((data.about_paragraphs as string[]).join("\n\n"));
-        setEmail(data.email);
         setAvatarUrl(data.avatar_url ?? "");
       }
       setLoading(false);
@@ -32,7 +30,7 @@ export default function ProfileEditor() {
     const paragraphs = aboutParagraphs.split("\n\n").filter(Boolean);
     const { error } = await supabase
       .from("profile")
-      .update({ name, position, about_paragraphs: paragraphs, email, avatar_url: avatarUrl || null })
+      .update({ name, position, about_paragraphs: paragraphs, avatar_url: avatarUrl || null })
       .eq("id", 1);
     if (error) {
       toast.error("Failed to save profile");
@@ -56,10 +54,6 @@ export default function ProfileEditor() {
         <div className="space-y-2">
           <Label className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">Position</Label>
           <Input type="text" value={position} onChange={(e) => setPosition(e.target.value)} />
-        </div>
-        <div className="space-y-2">
-          <Label className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">Email</Label>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="space-y-2">
           <Label className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">Avatar</Label>
