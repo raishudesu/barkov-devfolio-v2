@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,7 +8,6 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import {
-  UserIcon,
   List,
   Envelope,
   GameController,
@@ -47,7 +45,7 @@ const Header = () => {
       {/* Mobile top bar */}
       <div className="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-background/90 backdrop-blur-sm border-b border-gray-200 lg:hidden">
         <Link to="/" className="text-sm font-bold">
-          barysh bacaltos
+          Barysh Bacaltos
         </Link>
         <div className="flex items-center gap-3">
           <ModeToggle />
@@ -60,15 +58,8 @@ const Header = () => {
             <SheetContent side="left" showCloseButton={false} className="w-64 p-0">
               <div className="flex flex-col gap-6 h-full py-6 px-5">
                 <SheetClose asChild>
-                  <Link to="/" className="flex items-center gap-3">
-                    <Avatar className="size-10 shrink-0">
-                      <AvatarImage src="/images/header-img.png" />
-                      <AvatarFallback><UserIcon /></AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-sm font-bold leading-tight">Barysh Bacaltos</p>
-                      <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 leading-tight">full stack dev</p>
-                    </div>
+                  <Link to="/" className="text-sm font-bold">
+                    Barysh Bacaltos
                   </Link>
                 </SheetClose>
 
@@ -124,15 +115,8 @@ const Header = () => {
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:fixed lg:inset-y-0 lg:left-0 lg:w-56 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-background lg:py-8 lg:px-6">
         <div className="flex flex-col gap-6 h-full py-6 px-5">
-          <Link to="/" className="flex items-center gap-3">
-            <Avatar className="size-10 shrink-0">
-              <AvatarImage src="/images/header-img.png" />
-              <AvatarFallback><UserIcon /></AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-bold leading-tight">Barysh Bacaltos</p>
-              <p className="text-[11px] uppercase tracking-[0.08em] text-gray-400 leading-tight">full stack dev</p>
-            </div>
+          <Link to="/" className="text-sm font-bold">
+            Barysh Bacaltos
           </Link>
 
           <div className="h-px bg-gray-200" />
