@@ -20,6 +20,7 @@ function Blog() {
       .from("blogs")
       .select("title, slug, header_image, created_at")
       .eq("published", true)
+      .is("password", null)
       .order("created_at", { ascending: false })
       .then(({ data }) => {
         if (data) setPosts(data);

@@ -19,6 +19,7 @@ export default function BlogsSection() {
       .from("blogs")
       .select("title, slug, header_image, created_at")
       .eq("published", true)
+      .is("password", null)
       .order("created_at", { ascending: false })
       .limit(3)
       .then(({ data }) => {

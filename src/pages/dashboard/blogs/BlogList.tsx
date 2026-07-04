@@ -10,6 +10,7 @@ interface Blog {
   title: string;
   slug: string;
   published: boolean;
+  password: string | null;
   created_at: string;
 }
 
@@ -21,7 +22,7 @@ export default function BlogList() {
   const fetchBlogs = async () => {
     const { data } = await supabase
       .from("blogs")
-      .select("id, title, slug, published, created_at")
+      .select("id, title, slug, published, password, created_at")
       .order("created_at", { ascending: false });
     if (data) setBlogs(data);
     setLoading(false);
@@ -59,6 +60,7 @@ export default function BlogList() {
                 <p className="text-sm font-medium">{blog.title}</p>
                 <p className="text-[11px] font-mono text-gray-400">
                   /blog/{blog.slug} &middot; {blog.published ? "Published" : "Draft"}
+                  {blog.password && <span className="ml-1 text-yellow-600 dark:text-yellow-400">[Password]</span>}
                 </p>
               </div>
               <div className="flex items-center gap-2">

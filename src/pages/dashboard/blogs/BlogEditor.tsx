@@ -16,6 +16,7 @@ export default function BlogEditor() {
   const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
   const [headerImage, setHeaderImage] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
   const [published, setPublished] = useState(false);
   const [saving, setSaving] = useState(false);
   const [slugEdited, setSlugEdited] = useState(false);
@@ -29,6 +30,7 @@ export default function BlogEditor() {
         setContent(data.content ?? "");
         setHeaderImage(data.header_image);
         setPublished(data.published);
+        setPassword(data.password ?? "");
       }
     });
   }, [id, isNew]);
@@ -45,7 +47,7 @@ export default function BlogEditor() {
     if (!title.trim() || !slug.trim()) return;
     setSaving(true);
 
-    const record = { title, slug, content, header_image: headerImage, published };
+    const record = { title, slug, content, header_image: headerImage, published, password: password || null };
 
     if (isNew) {
       await supabase.from("blogs").insert(record);
@@ -88,6 +90,16 @@ export default function BlogEditor() {
       <div className="space-y-2">
         <Label className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">Content</Label>
         <RichTextEditor content={content} onChange={setContent} />
+      </div>
+
+      <div className="space-y-2">
+        <Label className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">Password (optional — gates access on direct URL)</Label>
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Leave empty for no password"
+        />
       </div>
 
       <label className="flex items-center gap-2 cursor-pointer">
