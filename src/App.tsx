@@ -6,6 +6,7 @@ import Footer from "./sections/footer";
 import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import ProjectsPage from "./pages/Projects";
 import Game from "./pages/Game";
 import Login from "./pages/Login";
 import Gallery from "./pages/Gallery";
@@ -36,6 +37,7 @@ function App() {
               <div className="mx-auto max-w-[42rem]">
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/projects" element={<ProjectsPage />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:slug" element={<BlogPost />} />
                   <Route path="/game" element={<Game />} />

@@ -19,6 +19,7 @@ import type { Profile } from "@/lib/types";
 
 const NAV_ITEMS = [
   { to: "/", label: "home" },
+  { to: "/projects", label: "projects" },
   { to: "/blog", label: "blog" },
   { to: "/gallery", label: "gallery" },
   { to: "/game", label: "game" },

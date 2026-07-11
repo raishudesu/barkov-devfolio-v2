@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
-import { DotsSixVertical, PencilSimple, TrashSimple, Plus } from "@phosphor-icons/react";
+import { DotsSixVertical, PencilSimple, TrashSimple, Plus, XIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { ImageUpload } from "@/components/ImageUpload";
 import { ConfirmDelete } from "@/components/confirm-delete";
 import {
@@ -111,6 +112,24 @@ export default function ProjectsManager() {
   const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
   const [editing, setEditing] = useState<Project | null>(null);
   const [editForm, setEditForm] = useState(emptyProject);
+  const [techInput, setTechInput] = useState("");
+
+  const addTechTag = useCallback((tag: string) => {
+    const trimmed = tag.trim();
+    if (!trimmed) { setTechInput(""); return; }
+    setEditForm((prev) => {
+      if (prev.tech_stack.includes(trimmed)) return prev;
+      return { ...prev, tech_stack: [...prev.tech_stack, trimmed] };
+    });
+    setTechInput("");
+  }, []);
+
+  const removeTechTag = useCallback((tag: string) => {
+    setEditForm((prev) => ({
+      ...prev,
+      tech_stack: prev.tech_stack.filter((t) => t !== tag),
+    }));
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -151,11 +170,13 @@ export default function ProjectsManager() {
   const resetForm = () => {
     setEditing(null);
     setEditForm(emptyProject);
+    setTechInput("");
   };
 
   const openNew = () => {
     setEditForm({ ...emptyProject, sort_order: projects.length + 1 });
     setEditing({} as Project);
+    setTechInput("");
   };
 
   const openEdit = (project: Project) => {
@@ -168,6 +189,7 @@ export default function ProjectsManager() {
       image_url: project.image_url ?? "",
       sort_order: project.sort_order,
     });
+    setTechInput("");
   };
 
   const save = async () => {
@@ -250,12 +272,38 @@ export default function ProjectsManager() {
             </div>
             <div className="space-y-2">
               <Label className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">
-                Tech stack (comma separated)
+                Tech stack
               </Label>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {editForm.tech_stack.map((tech) => (
+                  <Badge key={tech} variant="secondary" className="gap-1 pr-1">
+                    {tech}
+                    <button
+                      type="button"
+                      onClick={() => removeTechTag(tech)}
+                      className="inline-flex items-center justify-center hover:text-foreground/80"
+                    >
+                      <XIcon size={10} />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
               <Input
                 type="text"
-                value={editForm.tech_stack.join(", ")}
-                onChange={(e) => setEditForm({ ...editForm, tech_stack: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
+                placeholder="Type and press Enter or comma to add"
+                value={techInput}
+                onChange={(e) => setTechInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === ",") {
+                    e.preventDefault();
+                    addTechTag(techInput);
+                  } else if (e.key === "Backspace" && techInput === "" && editForm.tech_stack.length > 0) {
+                    removeTechTag(editForm.tech_stack[editForm.tech_stack.length - 1]);
+                  }
+                }}
+                onBlur={() => {
+                  if (techInput.trim()) addTechTag(techInput);
+                }}
               />
             </div>
             <div className="space-y-2">

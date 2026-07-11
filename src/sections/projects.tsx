@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Project } from "@/lib/types";
 import ProjectCard from "../sections/components/project-card";
+import { ArrowRight } from "@phosphor-icons/react";
 
 function ProjectCardSkeleton() {
   return (
@@ -24,7 +26,11 @@ function ProjectCardSkeleton() {
   );
 }
 
-const Projects = () => {
+interface ProjectsProps {
+  limit?: number;
+}
+
+const Projects = ({ limit }: ProjectsProps) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,11 +45,19 @@ const Projects = () => {
       });
   }, []);
 
+  const displayed = limit ? projects.slice(0, limit) : projects;
+
   return (
     <section className="mb-14">
-      <p className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400 mb-4">
-        03 — projects
-      </p>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-400">03 — projects</p>
+        <Link
+          to="/projects"
+          className="text-[11px] font-mono uppercase tracking-[0.1em] text-gray-500 hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1"
+        >
+          View all <ArrowRight size={12} />
+        </Link>
+      </div>
       <div className="flex flex-col gap-3">
         {loading ? (
           <>
@@ -51,7 +65,7 @@ const Projects = () => {
             <ProjectCardSkeleton />
           </>
         ) : (
-          projects.map((project) => (
+          displayed.map((project) => (
             <ProjectCard
               key={project.id}
               title={project.title}
@@ -63,6 +77,7 @@ const Projects = () => {
           ))
         )}
       </div>
+
     </section>
   );
 };

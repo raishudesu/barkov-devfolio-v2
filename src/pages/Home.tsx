@@ -12,7 +12,7 @@ function Home() {
     <>
       <About />
       <TechStack />
-      <Projects />
+      <Projects limit={3} />
       <Experience />
       <BlogsSection />
       <Socials />
