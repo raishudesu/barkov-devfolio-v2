@@ -21,7 +21,11 @@ interface Social {
   sort_order: number;
 }
 
-const KNOWN_ICONS = ["GithubLogo", "LinkedinLogo"];
+const ICON_OPTIONS = [
+  { label: "GithubLogo", value: "GithubLogo" },
+  { label: "LinkedinLogo", value: "LinkedinLogo" },
+  { label: "Other", value: "Link" },
+];
 
 const emptyForm = {
   name: "",
@@ -190,8 +194,8 @@ export default function SocialsManager() {
                 onChange={(e) => setForm({ ...form, icon_name: e.target.value })}
                 className="h-8 w-full rounded-none border border-input bg-transparent px-2.5 py-1 text-xs"
               >
-                {KNOWN_ICONS.map((icon) => (
-                  <option key={icon} value={icon}>{icon}</option>
+                {ICON_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
               </select>
             </div>
