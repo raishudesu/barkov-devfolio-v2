@@ -25,58 +25,52 @@ import "./App.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/next";
+
 function App() {
   return (
-    <>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <TooltipProvider>
-          <AuthProvider>
-            <div className="flex flex-col lg:flex min-h-screen">
-              <Header />
-              <main className="flex-1 min-w-0 px-4 pt-6 pb-16 lg:ml-56 lg:pt-12 lg:px-8">
-                <div className="mx-auto max-w-[42rem]">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<ProjectsPage />} />
-                    <Route path="/blog" element={<Blog />} />
-                    <Route path="/blog/:slug" element={<BlogPost />} />
-                    <Route path="/game" element={<Game />} />
-                    <Route path="/gallery" element={<Gallery />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route
-                      path="/dashboard"
-                      element={
-                        <ProtectedRoute>
-                          <DashboardLayout />
-                        </ProtectedRoute>
-                      }
-                    >
-                      <Route index element={<DashboardHome />} />
-                      <Route path="profile" element={<ProfileEditor />} />
-                      <Route path="tech-stack" element={<TechStackManager />} />
-                      <Route path="projects" element={<ProjectsManager />} />
-                      <Route
-                        path="experience"
-                        element={<ExperienceManager />}
-                      />
-                      <Route path="socials" element={<SocialsManager />} />
-                      <Route path="blogs" element={<BlogList />} />
-                      <Route path="blogs/:id" element={<BlogEditor />} />
-                      <Route path="gallery" element={<GalleryManager />} />
-                      <Route path="inquiries" element={<InquiriesManager />} />
-                    </Route>
-                  </Routes>
-                  <Footer />
-                </div>
-              </main>
-              <Toaster />
-            </div>
-          </AuthProvider>
-        </TooltipProvider>
-      </ThemeProvider>
-      <Analytics />
-    </>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <TooltipProvider>
+        <AuthProvider>
+          <div className="flex flex-col lg:flex min-h-screen">
+            <Header />
+            <main className="flex-1 min-w-0 px-4 pt-6 pb-16 lg:ml-56 lg:pt-12 lg:px-8">
+              <div className="mx-auto max-w-[42rem]">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/projects" element={<ProjectsPage />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
+                  <Route path="/game" element={<Game />} />
+                  <Route path="/gallery" element={<Gallery />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <DashboardLayout />
+                      </ProtectedRoute>
+                    }
+                  >
+                    <Route index element={<DashboardHome />} />
+                    <Route path="profile" element={<ProfileEditor />} />
+                    <Route path="tech-stack" element={<TechStackManager />} />
+                    <Route path="projects" element={<ProjectsManager />} />
+                    <Route path="experience" element={<ExperienceManager />} />
+                    <Route path="socials" element={<SocialsManager />} />
+                    <Route path="blogs" element={<BlogList />} />
+                    <Route path="blogs/:id" element={<BlogEditor />} />
+                    <Route path="gallery" element={<GalleryManager />} />
+                    <Route path="inquiries" element={<InquiriesManager />} />
+                  </Route>
+                </Routes>
+                <Footer />
+              </div>
+            </main>
+            <Toaster />
+          </div>
+        </AuthProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   );
 }
 
